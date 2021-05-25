@@ -1,7 +1,7 @@
 package log
 
 import (
-	"github.com/kons16/memo_app/services/account/config"
+	"github.com/kons16/ecs_scaling_app/services/app/config"
 	"github.com/labstack/gommon/log"
 )
 

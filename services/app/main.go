@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/kons16/memo_app/services/account/web"
+	"github.com/kons16/ecs_scaling_app/services/app/web"
 	"os"
 )
 

@@ -2,7 +2,7 @@ package handler
 
 import (
 	"encoding/json"
-	"github.com/kons16/memo_app/services/account/log"
+	"github.com/kons16/ecs_scaling_app/services/app/log"
 	"github.com/labstack/echo/v4"
 	"net/http"
 )
@@ -21,5 +21,5 @@ func GetToken(c echo.Context) error {
 		return nil
 	}
 
-	return c.JSON(http.StatusOK, resBytes)
+	return c.JSON(http.StatusOK, string(resBytes))
 }

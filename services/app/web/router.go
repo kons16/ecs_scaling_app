@@ -1,7 +1,7 @@
 package web
 
 import (
-	"github.com/kons16/memo_app/services/account/web/handler"
+	"github.com/kons16/ecs_scaling_app/services/app/web/handler"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 )
