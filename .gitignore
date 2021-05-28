@@ -1,1 +1,7 @@
 .idea
+*.tfvars
+*.tfstate
+*.tfstate.backup
+.terraform/
+.terraform*
+*.log
