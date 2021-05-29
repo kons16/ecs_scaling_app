@@ -2,7 +2,7 @@ version: 2
 jobs:
   build_docker_nginx:
     docker:
-      - image: circleci/golang:1.13-alpine
+      - image: cimg/go:1.16
     environment:
       AWS_ECR_HOST_JP: aaaa
     steps:
@@ -11,9 +11,11 @@ jobs:
       - run:
           name: 'docker build'
           command: |
+            echo "build start"
       - run:
           name: 'docker push'
           command: |
+            echo "image push start"
 
 workflows:
   version: 2
@@ -22,5 +24,4 @@ workflows:
       - build_docker_nginx:
           filters:
             branches:
-              only:
-                - dev
+              only: dev
