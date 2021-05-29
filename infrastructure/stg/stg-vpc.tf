@@ -52,6 +52,6 @@ resource "aws_nat_gateway" "nat_1a" {
   allocation_id = "${aws_eip.nat_1a.id}"       # 紐付けるElasti IP
 
   tags = {
-    Name = "ecs-app-1a"
+    Name = "handson-1a"
   }
 }
