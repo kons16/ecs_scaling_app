@@ -21,6 +21,7 @@ jobs:
           command: |
             pushd docker/nginx
             echo "## docker push start ##"
+            $(aws ecr get-login --no-include-email --region ap-northeast-1)
             docker tag nginx:master ${AWS_ECR_HOST_URL}/nginx:master
             docker push ${AWS_ECR_HOST_URL}/nginx:master
 
