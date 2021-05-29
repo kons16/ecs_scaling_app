@@ -22,5 +22,4 @@ workflows:
       - build_docker_nginx:
           filters:
             branches:
-              only:
-                - dev
+              only: dev
