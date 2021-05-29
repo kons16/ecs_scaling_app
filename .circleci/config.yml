@@ -4,18 +4,25 @@ jobs:
     docker:
       - image: cimg/go:1.16
     environment:
-      AWS_ECR_HOST_JP: aaaa
+      AWS_ECR_HOST_URL: $AWS_ECR_HOST_URL
     steps:
       - checkout
       - setup_remote_docker
       - run:
           name: 'docker build'
           command: |
-            echo "build start"
+            set -x
+            pushd docker/nginx
+            docker version
+            echo "## docker build start ##"
+            docker build -t nginx:master .
       - run:
           name: 'docker push'
           command: |
-            echo "image push start"
+            pushd docker/nginx
+            echo "## docker push start ##"
+            docker tag nginx:master ${AWS_ECR_HOST_URL}/nginx:master
+            docker push ${AWS_ECR_HOST_URL}/nginx:master
 
 workflows:
   version: 2
