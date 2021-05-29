@@ -11,9 +11,11 @@ jobs:
       - run:
           name: 'docker build'
           command: |
+            echo "build start"
       - run:
           name: 'docker push'
           command: |
+            echo "image push start"
 
 workflows:
   version: 2
