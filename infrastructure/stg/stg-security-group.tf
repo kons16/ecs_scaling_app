@@ -2,7 +2,7 @@ resource "aws_security_group" "sg" {
   name        = "my-sg"
   vpc_id      = "${aws_vpc.main.id}"
 
-  # セキュリティグループ内のリソースからインターネットへのアクセスを許可する
+  # セキュリティグループ内のリソース から インターネット へのアクセスを許可する
   egress {
     from_port   = 0
     to_port     = 0
@@ -18,7 +18,7 @@ resource "aws_security_group" "sg" {
 resource "aws_security_group_rule" "sg-rule" {
   security_group_id = "${aws_security_group.alb.id}"
 
-  # セキュリティグループ内のリソースへインターネットからのアクセスを許可する
+  # インターネット から セキュリティグループ内のリソース へののアクセスを許可する
   type = "ingress"
 
   from_port = 80
