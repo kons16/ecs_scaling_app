@@ -26,15 +26,15 @@ jobs:
             pushd docker/nginx
             docker version
             echo "## docker build start ##"
-            docker build -t ecs-nginx .
+            docker build -t ecs-scaling-app/nginx .
       - run:
           name: 'docker push'
           command: |
             pushd docker/nginx
             echo "## docker push start ##"
-            aws ecr get-login-password | docker login --username AWS --password-stdin ${AWS_ECR_HOST_URL_NGINX}
-            docker tag ecs-nginx:latest ${AWS_ECR_HOST_URL_NGINX}/ecs-nginx:latest
-            docker push ${AWS_ECR_HOST_URL_NGINX}/ecs-nginx:latest
+            aws ecr get-login-password --region ${AWS_DEFAULT_REGION} | docker login --username AWS --password-stdin ${AWS_ECR_HOST_URL}
+            docker tag ecs-scaling-app/nginx:latest ${AWS_ECR_HOST_URL}/ecs-scaling-app/nginx:latest
+            docker push ${AWS_ECR_HOST_URL}/ecs-scaling-app/nginx:latest
 
 workflows:
   version: 2
