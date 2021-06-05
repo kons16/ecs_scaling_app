@@ -41,7 +41,7 @@ jobs:
             set -x
             docker version
             echo "## docker build start ##"
-            docker build -f docker/app/Dockerfile -t ecs-scaling-app/app
+            docker build -f docker/app/Dockerfile -t ecs-scaling-app/app .
       - run:
           name: 'docker push app'
           command: |
