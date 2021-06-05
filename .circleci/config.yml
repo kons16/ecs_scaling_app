@@ -1,6 +1,6 @@
 version: 2
 jobs:
-  build_docker_nginx:
+  build_docker_and_push:
     docker:
       - image: cimg/go:1.16
     steps:
@@ -20,7 +20,7 @@ jobs:
             export AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION}
             aws --version
       - run:
-          name: 'docker build'
+          name: 'docker build nginx'
           command: |
             set -x
             pushd docker/nginx
@@ -28,19 +28,44 @@ jobs:
             echo "## docker build start ##"
             docker build -t ecs-scaling-app/nginx .
       - run:
-          name: 'docker push'
+          name: 'docker push nginx'
           command: |
             pushd docker/nginx
             echo "## docker push start ##"
             aws ecr get-login-password --region ${AWS_DEFAULT_REGION} | docker login --username AWS --password-stdin ${AWS_ECR_HOST_URL}
             docker tag ecs-scaling-app/nginx:latest ${AWS_ECR_HOST_URL}/ecs-scaling-app/nginx:latest
             docker push ${AWS_ECR_HOST_URL}/ecs-scaling-app/nginx:latest
+      - run:
+          name: 'docker build app'
+          command: |
+            set -x
+            docker version
+            echo "## docker build start ##"
+            docker build -f docker/app/Dockerfile -t ecs-scaling-app/app .
+      - run:
+          name: 'docker push app'
+          command: |
+            echo "## docker push start ##"
+            aws ecr get-login-password --region ${AWS_DEFAULT_REGION} | docker login --username AWS --password-stdin ${AWS_ECR_HOST_URL}
+            docker tag ecs-scaling-app/app:latest ${AWS_ECR_HOST_URL}/ecs-scaling-app/app:latest
+            docker push ${AWS_ECR_HOST_URL}/ecs-scaling-app/app:latest
+
+  # setup_terraform:
+  #   steps:
+  #     - checkout
+  #     - setup_remote_docker
+  #     - run:
+  #         name: 'terraform init'
 
 workflows:
   version: 2
   build:
     jobs:
-      - build_docker_nginx:
+      - build_docker_and_push:
           filters:
             branches:
               only: dev
+      # - setup_terraform:
+      #     filters:
+      #       branches:
+      #         only: dev
