@@ -39,14 +39,12 @@ jobs:
           name: 'docker build app'
           command: |
             set -x
-            pushd docker/app
             docker version
             echo "## docker build start ##"
-            docker build -t ecs-scaling-app/app .
+            docker build -f docker/app/Dockerfile -t ecs-scaling-app/app
       - run:
           name: 'docker push app'
           command: |
-            pushd docker/app
             echo "## docker push start ##"
             aws ecr get-login-password --region ${AWS_DEFAULT_REGION} | docker login --username AWS --password-stdin ${AWS_ECR_HOST_URL}
             docker tag ecs-scaling-app/app:latest ${AWS_ECR_HOST_URL}/ecs-scaling-app/app:latest
