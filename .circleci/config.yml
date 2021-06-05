@@ -3,11 +3,17 @@ jobs:
   build_docker_nginx:
     docker:
       - image: cimg/go:1.16
-    environment:
-      AWS_ECR_HOST_URL: $AWS_ECR_HOST_URL
     steps:
       - checkout
       - setup_remote_docker
+      - run:
+          name: 'aws cli install'
+          command: |
+            if [[ ! -d aws-cli ]]; then
+              curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+              unzip awscliv2.zip
+              sudo ./aws/install --install-dir ~/work/aws-cli
+            fi
       - run:
           name: 'docker build'
           command: |
