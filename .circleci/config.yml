@@ -29,7 +29,7 @@ jobs:
           command: |
             pushd docker/nginx
             echo "## docker push start ##"
-            $ aws ecr get-login-password | docker login --username AWS --password-stdin ${AWS_ECR_HOST_URL}
+            aws ecr get-login-password | docker login --username AWS --password-stdin ${AWS_ECR_HOST_URL}
             docker tag nginx:master ${AWS_ECR_HOST_URL}/nginx:master
             docker push ${AWS_ECR_HOST_URL}/nginx:master
 
