@@ -1,32 +1,44 @@
+resource "aws_lb" "lb" {
+  name     = "ecs-app"
+  internal = false
+
+  subnets = [
+    "your_subnetid",
+    "your_subnetid",
+  ]
+  load_balancer_type = "network"
+  enable_http2       = false
+}
+
 resource "aws_lb_target_group" "main" {
   name = "ecs-app"
 
-  vpc_id = "${aws_vpc.main.id}"
+  vpc_id = aws_vpc.main.id
 
   # ALBからECSタスクのコンテナへトラフィックを振り分ける設定
   port        = 80
   protocol    = "HTTP"
   target_type = "ip"
 
-  health_check = {
+  health_check {
     port = 80
     path = "/"
   }
 }
 
-resource "aws_lb_listener_rule" "main" {
-  # ルールを追加するリスナー
-  listener_arn = "${aws_lb_listener.main.arn}"
+# どのポートのリクエストを受け付けるか
+resource "aws_lb_listener" "http" {
+  load_balancer_arn = aws_lb.lb.arn
+  port              = 80
+  protocol          = "HTTP"
 
-  # 受け取ったトラフィックをターゲットグループへ受け渡す
-  action {
-    type             = "forward"
-    target_group_arn = "${aws_lb_target_group.main.id}"
-  }
+  default_action {
+    type = "fixed-response"
 
-  # ターゲットグループへ受け渡すトラフィックの条件
-  condition {
-    field  = "path-pattern"
-    values = ["*"]
+    fixed_response {
+      content_type = "text/plain"
+      message_body = "Fixed response content"
+      status_code  = "200"
+    }
   }
 }
