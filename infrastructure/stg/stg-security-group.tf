@@ -11,7 +11,7 @@ resource "aws_security_group" "sg" {
   }
 
   tags = {
-    Name = "my-sg"
+    Name = "ecs-app"
   }
 }
 

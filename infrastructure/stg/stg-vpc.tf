@@ -18,6 +18,18 @@ resource "aws_subnet" "public_1a" {
   }
 }
 
+resource "aws_subnet" "public_2a" {
+  vpc_id = aws_vpc.main.id
+
+  availability_zone = "ap-northeast-1c"
+
+  cidr_block        = "10.0.2.0/24"
+
+  tags = {
+    Name = "ecs-app-public-2a"
+  }
+}
+
 resource "aws_subnet" "private_1a" {
   vpc_id = aws_vpc.main.id
 
@@ -37,7 +49,6 @@ resource "aws_internet_gateway" "main" {
   }
 }
 
-# Elasti IP
 resource "aws_eip" "nat_1a" {
   vpc = true
 
@@ -46,10 +57,9 @@ resource "aws_eip" "nat_1a" {
   }
 }
 
-# NAT Gateway
 resource "aws_nat_gateway" "nat_1a" {
-  subnet_id     = aws_subnet.public_1a.id # NAT Gatewayを配置するSubnetを指定
-  allocation_id = aws_eip.nat_1a.id       # 紐付けるElasti IP
+  subnet_id     = aws_subnet.public_1a.id
+  allocation_id = aws_eip.nat_1a.id
 
   tags = {
     Name = "ecs-app-nat"

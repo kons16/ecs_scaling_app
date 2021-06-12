@@ -3,11 +3,12 @@ resource "aws_lb" "lb" {
   internal = false
 
   subnets = [
-    "your_subnetid",
-    "your_subnetid",
+    aws_subnet.public_1a.id,
+    aws_subnet.public_2a.id
   ]
-  load_balancer_type = "network"
-  enable_http2       = false
+
+  load_balancer_type = "application"
+  security_groups    = [aws_security_group.sg.id]
 }
 
 resource "aws_lb_target_group" "main" {
