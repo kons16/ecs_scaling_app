@@ -1,17 +1,11 @@
 [
     {
         "name": "nginx",
-        "image": "${var.AWS_ECR_HOST_URL}/ecs-scaling-app/nginx:latest",
+        "image": "${AWS_ECR_HOST_URL}/ecs-scaling-app/nginx:latest",
+        "essential": true,
         "portMappings": [{
-            "containerPort": 80,
-            "hostPort": 80
-        }]
-    },
-    {
-        "name": "app",
-        "image": "${var.AWS_ECR_HOST_URL}/ecs-scaling-app/app:latest",
-        "portMappings": [{
-            "hostPort": 8000
+            "protocaol": "tcp",
+            "containerPort": 80
         }]
     }
 ]

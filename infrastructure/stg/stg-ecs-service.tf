@@ -4,9 +4,8 @@ resource "aws_ecs_cluster" "main" {
 
 resource "aws_ecs_service" "main" {
   name = "main_service"
-
-  cluster = aws_ecs_cluster.main.name
-
+  cluster = aws_ecs_cluster.main.arn
+  launch_type = "EC2"
   desired_count = "1"
 
   task_definition = aws_ecs_task_definition.main.arn
