@@ -65,3 +65,37 @@ resource "aws_nat_gateway" "nat_1a" {
     Name = "ecs-app-nat"
   }
 }
+
+resource "aws_vpc_endpoint" "ecr-api" {
+  vpc_id            = aws_vpc.main.id
+  service_name      = "com.amazonaws.ap-northeast-1.ecr.api"
+  vpc_endpoint_type = "Interface"
+
+  security_group_ids = [
+    aws_security_group_rule.sg-rule-vpc.id,
+  ]
+
+  subnet_ids = [aws_subnet.private_1a.id]
+
+  private_dns_enabled = true
+}
+
+resource "aws_vpc_endpoint" "ecr-dkr" {
+  vpc_id            = aws_vpc.main.id
+  service_name      = "com.amazonaws.ap-northeast-1.ecr.dkr"
+  vpc_endpoint_type = "Interface"
+
+  security_group_ids = [
+    aws_security_group_rule.sg-rule-vpc.id,
+  ]
+
+  subnet_ids = [aws_subnet.private_1a.id]
+
+  private_dns_enabled = true
+}
+
+resource "aws_vpc_endpoint" "sample-s3" {
+  vpc_id            = aws_vpc.main.id
+  service_name      = "com.amazonaws.ap-northeast-1.s3"
+  route_table_ids = [aws_route_table.sample-private.id]
+}
